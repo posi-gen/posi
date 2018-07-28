@@ -1,0 +1,1 @@
+export { withClickHandling } from './withClickHandling'

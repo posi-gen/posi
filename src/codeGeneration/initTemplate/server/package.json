@@ -1,0 +1,17 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "A simple GraphQL server",
+  "main": "server.js",
+  "scripts": {
+    "start": "set node_env=production&&node ./server.js",
+    "dstart": "set NODE_ENV=development&&set DEBUG=postgraphile:postgres*&&node ./server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "postgraphile-plugin-connection-filter": "^1.0.0-beta.12",
+    "postgraphile": "4.0.0-rc.1"
+  }
+}

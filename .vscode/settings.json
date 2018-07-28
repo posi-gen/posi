@@ -1,0 +1,41 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  // Enable per-language
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  "cSpell.words": [
+    "",
+    "backend",
+    "bigint",
+    "bigserial",
+    "btree",
+    "bytea",
+    "cidr",
+    "dropzone",
+    "fkey",
+    "fkeys",
+    "inet",
+    "jsonb",
+    "jszip",
+    "lseg",
+    "macaddr",
+    "middleware",
+    "middlewares",
+    "pgcrypto",
+    "plpgsql",
+    "posi",
+    "postgraphile",
+    "postgraphql",
+    "postgres",
+    "promisify",
+    "rebass",
+    "reselect",
+    "smallint",
+    "smallserial",
+    "varbit",
+    "varchar"
+  ]
+}

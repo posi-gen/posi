@@ -1,0 +1,1 @@
+export { Subhead } from 'rebass'

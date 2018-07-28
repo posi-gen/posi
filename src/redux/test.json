@@ -1,0 +1,127 @@
+{
+  "tables": {
+    "person": {
+      "name": "person",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "text"
+        }
+      },
+      "pkey": { "id": { "name": "id" } }
+    },
+    "room": {
+      "name": "room",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "text"
+        }
+      },
+      "pkey": { "id": { "name": "id" } }
+    },
+    "device": {
+      "name": "device",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "notNull": true
+        },
+        "isRouter": {
+          "name": "isRouter",
+          "type": "boolean"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "inet"
+        },
+        "portsNumber": {
+          "name": "portsNumber",
+          "type": "smallint"
+        },
+        "responsible": {
+          "name": "responsible",
+          "type": "integer"
+        },
+        "location": {
+          "name": "location",
+          "type": "integer"
+        }
+      },
+      "pkey": { "id": { "name": "id" } },
+      "fkeys": {
+        "fkeyDeviceResponsible": {
+          "name": "fkeyDeviceResponsible",
+          "column": "responsible",
+          "reference": "person"
+        },
+        "fkeyLocationResponsible": {
+          "name": "fkeyLocationResponsible",
+          "column": "location",
+          "reference": "location"
+        }
+      },
+      "check": {
+        "positiveNumberOfPorts": {
+          "name": "positiveNumberOfPorts",
+          "params": {
+            "portsNumber": { "name": "portsNumber" }
+          },
+          "condition": "%%portsNumber%% > 0"
+        }
+      },
+      "unique": {
+        "ipOfDeviceIsUnique": {
+          "name": "ipOfDeviceIsUnique",
+          "columns": {
+            "ip": {
+              "name": "ip"
+            }
+          }
+        }
+      },
+      "indexes": {
+        "deviceNameIdx": {
+          "name": "deviceNameIdx",
+          "method": "btree",
+          "unique": true,
+          "parts": {
+            "name": {
+              "name": "name",
+              "params": {
+                "name": { "name": "name" }
+              },
+              "expression": "lower(%%name%%)",
+              "desc": true,
+              "nullsFirst": true
+            }
+          }
+        },
+        "deviceIpIdx": {
+          "name": "deviceIpIdx",
+          "method": "btree",
+          "unique": true,
+          "parts": {
+            "ip": {
+              "name": "ip",
+              "column": "ip"
+            }
+          }
+        }
+      }
+    }
+  }
+}

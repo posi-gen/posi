@@ -1,0 +1,1 @@
+export { Border } from 'rebass'

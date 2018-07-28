@@ -1,0 +1,1 @@
+export { Samp } from 'rebass'

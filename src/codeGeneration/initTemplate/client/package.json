@@ -1,0 +1,36 @@
+{
+  "name": "posi-gen",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-cache-persist": "^0.1.1",
+    "apollo-client-preset": "^1.0.8",
+    "apollo-link-error": "^1.1.0",
+    "apollo-link-state": "^0.4.1",
+    "final-form": "^4.8.3",
+    "react": "^16.4.1",
+    "react-apollo": "^2.1.5",
+    "react-autocomplete": "^1.8.1",
+    "react-dom": "^16.4.1",
+    "react-final-form": "^3.6.2",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "rebass": "^2.0.0-6",
+    "styled-components": "^3.3.2",
+    "unmaintained-react-scripts-babel-macros": "1.0.13"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-literal-to-ast": "^2.0.0",
+    "graphql-tag.macro": "^1.0.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "database": {
+    "key": "db",
+    "mainSchema": "main"
+  },
+  "schemas": {
+    "main": {
+      "key": "main",
+      "comment": "Main schema"
+    },
+    "service": {
+      "key": "service"
+    }
+  },
+  "extensions": {
+    "pgcrypto": {
+      "key": "pgcrypto",
+      "schema": "service"
+    }
+  },
+  "roles": {
+    "dbPostgraphql": {
+      "key": "dbPostgraphql",
+      "login": true,
+      "password": "MAvpHSpoKqsxU5lp6v9y",
+      "comment": "Role for Postgraphile",
+      "grantRoles": {
+        "dbAdmin": {
+          "key": "dbAdmin"
+        },
+        "dbUser": {
+          "key": "dbUser"
+        }
+      }
+    },
+    "dbAdmin": {
+      "key": "dbAdmin",
+      "comment": "Administrators access group",
+      "grants": {
+        "person": {
+          "key": "person",
+          "type": "TABLE",
+          "permissions": ["SELECT", "INSERT", "UPDATE", "DELETE"]
+        }
+      }
+    },
+    "dbUser": {
+      "key": "dbUser",
+      "comment": "User access group",
+      "grants": {
+        "person": {
+          "key": "person",
+          "type": "TABLE",
+          "permissions": ["SELECT"]
+        },
+        "room": {
+          "key": "room",
+          "type": "TABLE",
+          "permissions": ["SELECT"]
+        }
+      }
+    }
+  },
+  "tables": {
+    "person": {
+      "key": "person",
+      "columns": {
+        "id": {
+          "key": "id",
+          "type": "integer"
+        },
+        "key": {
+          "key": "name",
+          "type": "text"
+        }
+      },
+      "pkey": { "id": { "key": "id" } }
+    },
+    "room": {
+      "key": "room",
+      "columns": {
+        "id": {
+          "key": "id",
+          "type": "integer"
+        },
+        "key": {
+          "key": "name",
+          "type": "text"
+        },
+        "owner": {
+          "key": "owner",
+          "type": "integer"
+        }
+      },
+      "pkey": { "id": { "key": "id" } },
+      "fkeys": {
+        "fkeyRoomOwner": {
+          "key": "fkeyRoomOwner",
+          "column": "owner",
+          "reference": "person"
+        }
+      },
+      "policy": {
+        "SELECT": {
+          "key": "SELECT",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isOwner": {
+                  "key": "isOwner",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "id",
+                    "procedure": "current_user_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "INSERT": {
+          "key": "INSERT",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isOwner": {
+                  "key": "isOwner",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "id",
+                    "procedure": "current_user_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "UPDATE": {
+          "key": "UPDATE",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isOwner": {
+                  "key": "isOwner",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "id",
+                    "procedure": "current_user_id"
+                  },
+                  "check": {
+                    "type": "FUNCTION",
+                    "column": "id",
+                    "procedure": "current_user_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DELETE": {
+          "key": "DELETE",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isOwner": {
+                  "key": "isOwner",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "id",
+                    "procedure": "current_user_id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "device": {
+      "key": "device",
+      "columns": {
+        "id": {
+          "key": "id",
+          "type": "integer"
+        },
+        "key": {
+          "key": "name",
+          "type": "text",
+          "notNull": true
+        },
+        "isRouter": {
+          "key": "isRouter",
+          "type": "boolean"
+        },
+        "ip": {
+          "key": "ip",
+          "type": "inet"
+        },
+        "portsNumber": {
+          "key": "portsNumber",
+          "type": "smallint"
+        },
+        "responsible": {
+          "key": "responsible",
+          "type": "integer"
+        },
+        "location": {
+          "key": "location",
+          "type": "integer"
+        }
+      },
+      "pkey": { "id": { "key": "id" } },
+      "fkeys": {
+        "fkeyDeviceResponsible": {
+          "key": "fkeyDeviceResponsible",
+          "column": "responsible",
+          "reference": "person"
+        },
+        "fkeyDeviceLocation": {
+          "key": "fkeyLocationResponsible",
+          "column": "location",
+          "reference": "room"
+        }
+      },
+      "check": {
+        "positiveNumberOfPorts": {
+          "key": "positiveNumberOfPorts",
+          "params": {
+            "portsNumber": { "key": "portsNumber" }
+          },
+          "condition": "%%portsNumber%% > 0"
+        }
+      },
+      "unique": {
+        "ipOfDeviceIsUnique": {
+          "key": "ipOfDeviceIsUnique",
+          "columns": {
+            "ip": {
+              "key": "ip"
+            }
+          }
+        }
+      },
+      "indexes": {
+        "deviceNameIdx": {
+          "key": "deviceNameIdx",
+          "method": "btree",
+          "unique": true,
+          "parts": {
+            "key": {
+              "key": "name",
+              "params": {
+                "key": { "key": "name" }
+              },
+              "expression": "lower(%%name%%)",
+              "desc": true,
+              "nullsFirst": true
+            }
+          }
+        },
+        "deviceIpIdx": {
+          "key": "deviceIpIdx",
+          "method": "btree",
+          "unique": true,
+          "parts": {
+            "ip": {
+              "key": "ip",
+              "column": "ip"
+            }
+          }
+        }
+      },
+      "policy": {
+        "SELECT": {
+          "key": "SELECT",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "INSERT": {
+          "key": "INSERT",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isResponsible": {
+                  "key": "isResponsible",
+                  "type": "PERMISSIVE",
+                  "check": {
+                    "type": "FUNCTION",
+                    "column": "responsible",
+                    "procedure": "current_user_id"
+                  }
+                },
+                "isRoomOwner": {
+                  "key": "isRoomOwner",
+                  "type": "RESTRICTIVE",
+                  "check": {
+                    "type": "COLUMN",
+                    "column": "location",
+                    "operator": "IN",
+                    "table": "room",
+                    "tableColumn": "id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "UPDATE": {
+          "key": "UPDATE",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isResponsible": {
+                  "key": "isResponsible",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "responsible",
+                    "procedure": "current_user_id"
+                  },
+                  "check": {
+                    "type": "FUNCTION",
+                    "column": "responsible",
+                    "procedure": "current_user_id"
+                  }
+                },
+                "isRoomOwner": {
+                  "key": "isRoomOwner",
+                  "type": "RESTRICTIVE",
+                  "using": {
+                    "type": "COLUMN",
+                    "column": "location",
+                    "operator": "IN",
+                    "table": "room",
+                    "tableColumn": "id"
+                  },
+                  "check": {
+                    "type": "COLUMN",
+                    "column": "location",
+                    "operator": "IN",
+                    "table": "room",
+                    "tableColumn": "id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DELETE": {
+          "key": "DELETE",
+          "users": {
+            "dbAdmin": {
+              "key": "dbAdmin",
+              "conditions": {
+                "forAll": {
+                  "key": "forAll",
+                  "using": {
+                    "type": "BOOLEAN",
+                    "condition": "true"
+                  }
+                }
+              }
+            },
+            "dbUser": {
+              "key": "dbUser",
+              "conditions": {
+                "isResponsible": {
+                  "key": "isResponsible",
+                  "type": "PERMISSIVE",
+                  "using": {
+                    "type": "FUNCTION",
+                    "column": "responsible",
+                    "procedure": "current_user_id"
+                  }
+                },
+                "isRoomOwner": {
+                  "key": "isRoomOwner",
+                  "type": "RESTRICTIVE",
+                  "using": {
+                    "type": "COLUMN",
+                    "column": "location",
+                    "operator": "IN",
+                    "table": "room",
+                    "tableColumn": "id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "enums": {
+    "sex": {
+      "key": "sex",
+      "options": {
+        "male": {
+          "key": "male"
+        },
+        "female": {
+          "key": "female"
+        }
+      }
+    },
+    "colors": {
+      "key": "colors",
+      "options": {
+        "white": {
+          "key": "white"
+        },
+        "black": {
+          "key": "black"
+        }
+      }
+    }
+  },
+  "domains": {
+    "usPostalCode": {
+      "key": "usPostalCode",
+      "type": "TEXT",
+      "check": "VALUE ~ '^\\d{5}$' OR VALUE ~ '^\\d{5}-\\d{4}$'"
+    },
+    "year": {
+      "key": "year",
+      "type": "INTEGER",
+      "default": 2000,
+      "check": "VALUE > 0"
+    }
+  },
+  "composites": {
+    "jwtToken": {
+      "key": "jwtToken",
+      "comment": "json web token",
+      "columns": {
+        "aud": {
+          "key": "aud",
+          "type": "text"
+        },
+        "role": {
+          "key": "role",
+          "type": "text"
+        },
+        "personId": {
+          "key": "personId",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

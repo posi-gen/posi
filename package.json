@@ -1,0 +1,38 @@
+{
+  "name": "posi",
+  "version": "0.3.0",
+  "private": true,
+  "homepage": "https://posi-gen.github.io",
+  "dependencies": {
+    "@rematch/core": "^1.0.0-beta.5",
+    "@rematch/persist": "^1.0.2",
+    "@rematch/select": "^1.0.2",
+    "change-case": "^3.0.2",
+    "file-saver": "^1.3.8",
+    "history": "^4.7.2",
+    "jszip": "^3.1.5",
+    "pluralize": "^7.0.0",
+    "react": "^16.4.1",
+    "react-app-rewire-styled-components": "^3.0.2",
+    "react-dom": "^16.4.1",
+    "react-dropzone": "^4.2.13",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "react-scripts": "1.1.4",
+    "rebass": "^2.0.1",
+    "reselect": "^3.0.1",
+    "styled-components": "^3.3.3"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-scripts eject",
+    "creteInitTemplate": "node creteInitTemplate"
+  },
+  "devDependencies": {
+    "raw-loader": "^0.5.1",
+    "react-app-rewired": "^1.5.2"
+  }
+}
